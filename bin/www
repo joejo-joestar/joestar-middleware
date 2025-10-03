@@ -4,6 +4,9 @@
  * Module dependencies.
  */
 
+// Load environment variables from .env in project root
+require('dotenv').config();
+
 var app = require('../app');
 var debug = require('debug')('joestar-middleware:server');
 var http = require('http');
