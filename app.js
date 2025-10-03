@@ -38,9 +38,13 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler (JSON)
+// error handler: serve HTML 404 page when appropriate, otherwise JSON
 app.use(function (err, req, res, next) {
-  res.status(err.status || 500).json({ message: err.message });
+  const status = err.status || 500;
+  if (req.accepts('html')) {
+    return res.status(status).sendFile(path.join(__dirname, 'public', status === 404 ? '404.html' : '404.html'));
+  }
+  return res.status(status).json({ message: err.message });
 });
 
 module.exports = app;

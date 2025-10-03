@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Joestar Middleware</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            padding: 4rem;
+            color: #111
+        }
+
+        header {
+            margin-bottom: 2rem
+        }
+
+        a {
+            color: #0366d6
+        }
+
+        .card {
+            border: 1px solid #e1e4e8;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Joestar Middleware</h1>
+        <p>Lightweight API proxy for GitHub, Spotify, and Unsplash used by the frontend.</p>
+    </header>
+
+    <section class="card">
+        <h2>Endpoints</h2>
+        <ul>
+            <li><a href="/github/repos">/github/repos</a></li>
+            <li><a href="/spotify/now-playing">/spotify/now-playing</a></li>
+            <li><a href="/unsplash/collections">/unsplash/collections</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <small>Hosted on Vercel — use environment variables for secrets.</small>
+    </footer>
+</body>
+
+</html>
