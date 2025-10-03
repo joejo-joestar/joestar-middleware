@@ -5,6 +5,9 @@
 </p>
 
 A middleware server for [my portfolio website](https://github.com/joejo-joestar/joestar), providing Spotify currently playing track, GitHub activity, and Unsplash photo collections.
+This project provides a simple Express server with three main API endpoints, each handled in separate route files:
+
+---
 
 ## Dependencies
 
@@ -16,13 +19,28 @@ A middleware server for [my portfolio website](https://github.com/joejo-joestar/
 | [dotenv](https://github.com/motdotla/dotenv)         | Loads environment variables from a `.env` file into `process.env`                                                                |
 | [cors](https://github.com/expressjs/cors)            | Node.js CORS middleware                                                                                                          |
 
-# API Shenanigans
+---
 
-This project provides a simple Express server with three main API endpoints, each handled in separate route files:
+## Project Structure
 
-- `routes/unsplash.js`: fetch Unsplash collections and photos
-- `routes/repos.js`: fetch GitHub repositories for the project owner
-- `routes/spotify.js`: exchange a Spotify refresh token and fetch the "now playing" item
+Below is a compact tree of the most important files and folders with a short note about their purpose.
+
+```plaintext
+joestar
+├── README.md     # Project documentation
+├── package.json  # npm scripts, dependencies
+├── app.js        # Express entry point
+├── public/         # Static assets served as-is
+│   ├── 404.html    # Oneko cat animation
+│   └── index.html  # Logo image
+├── bin/     # Source code
+│   └── www  # Theme / color tokens
+└── routes/          # Page routes (React Router)
+    ├── github.js    # fetch GitHub repositories for the project owner
+    ├── index.js     # root route, health check
+    ├── spotify.js   # exchange a Spotify refresh token and fetch the "now playing" item
+    └── unsplash.js  # fetch Unsplash collections and photos
+```
 
 ---
 
@@ -49,7 +67,7 @@ This project provides a simple Express server with three main API endpoints, eac
 > [!NOTE]
 > All Routes read from environment variables for API keys and tokens. See each section below for details
 
-### Unsplash route ([`unsplash.ts`](./routes/unsplash.ts))
+### Unsplash Route ([`unsplash.ts`](./routes/unsplash.ts))
 
 Fetch collections and photos from the Unsplash API for the gallery pages.
 
@@ -59,7 +77,7 @@ Fetch collections and photos from the Unsplash API for the gallery pages.
 
 ---
 
-### GitHub route ([`github.ts`](./routes/github.ts))
+### GitHub Route ([`github.ts`](./routes/github.ts))
 
 Fetch repositories for the `joejo-joestar` account (used to populate the Projects list).
 
@@ -72,7 +90,7 @@ Fetch repositories for the `joejo-joestar` account (used to populate the Project
 
 ---
 
-### Spotify route ([`spotify.ts`](./routes/spotify.ts))
+### Spotify Route ([`spotify.ts`](./routes/spotify.ts))
 
 Obtain an access token via a stored refresh token, and fetch the currently-playing item for the authenticated Spotify account.
 
