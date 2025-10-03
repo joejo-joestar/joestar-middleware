@@ -2,4 +2,12 @@
 Joestar Middleware
 </h1>
 
-[reference](https://codeburst.io/dont-use-nodemon-there-are-better-ways-fc016b50b45e)
+A middleware server for Joestar, providing Spotify currently playing track, GitHub activity, and Unsplash photo collections.
+
+## dependencies
+
+- express
+- http-errors
+- axios
+- dotenv
+- cors

@@ -8,7 +8,6 @@
 require('dotenv').config();
 
 var app = require('../app');
-var debug = require('debug')('joestar-middleware:server');
 var http = require('http');
 
 /**
