@@ -4,25 +4,169 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>404 Not Found</title>
+    <title>whoops!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
     <style>
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-            padding: 4rem;
-            color: #111;
-            text-align: center
+        .space-mono-regular {
+            font-family: "Space Mono", monospace;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .space-mono-bold {
+            font-family: "Space Mono", monospace;
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        .space-mono-regular-italic {
+            font-family: "Space Mono", monospace;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .space-mono-bold-italic {
+            font-family: "Space Mono", monospace;
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        html {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        :root {
+            line-height: 1.5;
+            font-weight: 300;
+            font-family: "Space Mono", Courier, monospace;
+            color-scheme: dark;
+            color: var(--main-text-color);
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            display: block;
+            position: absolute;
+            width: 100%;
+            top: 0px;
+            left: 0px;
+            background-color: var(--catppuccin-color-base);
+        }
+
+        #root {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 0;
+            min-height: 100vh;
+            min-width: 100%;
+        }
+
+        /* For Firefox */
+        ::-moz-selection {
+            background: var(--main-overlay-color);
+            color: var(--main-accent-color-rosewater);
+        }
+
+        ::selection {
+            background: var(--main-overlay-color);
+            color: var(--main-accent-color-rosewater);
         }
 
         a {
-            color: #0366d6
+            color: var(--main-accent-color-red);
+            transition: all 250ms ease-in-out;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: var(--main-accent-color-mauve);
+            transition: all 250ms ease-in-out;
+        }
+
+        .missing-page {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            font-size: 1.5rem;
+            font-weight: 500;
+            gap: 2rem;
+            color: var(--main-accent-color-mauve);
+        }
+
+        .missing-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .missing-text {
+            text-align: center;
+            width: 100%;
+        }
+
+        .missingno {
+            width: 10rem;
+        }
+
+        .four-oh-four {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--main-accent-color-green);
+        }
+
+        /* https://catppuccin.com/ */
+        :root {
+            --main-bg-color: #181825;
+            --main-bg-color-secondary: #11111b;
+            --main-overlay-color: #6c7086;
+            --main-surface-color: #313244;
+            --main-text-color: #cdd6f4;
+            --main-text-color-secondary: #bac2de;
+            --main-text-color-tertiary: #a6adc8;
+            --main-text-color-quaternary: #9399b2;
+            --main-accent-color-rosewater: #f5e0dc;
+            --main-accent-color-mauve: #cba6f7;
+            --main-accent-color-red: #f38ba8;
+            --main-accent-color-peach: #fab387;
+            --main-accent-color-yellow: #f9e2af;
+            --main-accent-color-green: #a6e3a1;
+            --main-accent-color-teal: #94e2d5;
+            --main-accent-color-sapphire: #74c7ec;
+            --main-accent-color-blue: #89b4fa;
         }
     </style>
 </head>
 
 <body>
-    <h1>404 — Not Found</h1>
-    <p>The page you requested could not be found.</p>
-    <p><a href="/">Return to the homepage</a></p>
+    <section class="missing-page">
+        <img src="https://raw.githubusercontent.com/joejo-joestar/joestar/8088435f433a56d8bc6dbf45c871dea1e615d75a/src/assets/pix404.png"
+            class="missingno" alt="Missing Page" />
+        <div class="missing-header">
+            <span class="four-oh-four">404</span>
+            <span>haha lmao no page here</span>
+        </div>
+        <span class="missing-text">
+            try going back to the <a href="/">home page</a>!
+        </span>
+    </section>
+    <footer>
+        <small>Find the source code on <a href="https://github.com/joejo-joestar/joestar-middleware"
+                target="_blank">github</a></small>
+    </footer>
 </body>
 
 </html>
