@@ -26,15 +26,15 @@ This project provides a simple Express server with three main API endpoints, eac
 Below is a compact tree of the most important files and folders with a short note about their purpose.
 
 ```plaintext
-joestar
+joestar-middleware/
 ├── README.md     # Project documentation
 ├── package.json  # npm scripts, dependencies
 ├── app.js        # Express entry point
 ├── public/         # Static assets served as-is
 │   ├── 404.html    # Oneko cat animation
 │   └── index.html  # Logo image
-├── bin/     # Source code
-│   └── www  # Theme / color tokens
+├── bin/
+│   └── www  # Server start script
 └── routes/          # Page routes (React Router)
     ├── github.js    # fetch GitHub repositories for the project owner
     ├── index.js     # root route, health check
