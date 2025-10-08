@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    if (origin === 'https://joestar.vercel.app') return callback(null, true);
+    if (origin === 'https://joestar.vercel.app' || 'https://joestar.is-a.dev') return callback(null, true);
     return callback(new Error('Not allowed by CORS'));
   },
   methods: ['GET', 'POST', 'OPTIONS'],
