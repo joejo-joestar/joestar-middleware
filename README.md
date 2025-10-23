@@ -1,7 +1,7 @@
 <h1 align="center">🔌 joestar middleware</h1>
 
 <p align="center">
-    <img src="" alt="car in clouds" title="car in clouds" width="128" >
+    <img src="public/pixlinkcar.png" alt="carlink" title="carlink" width="128" >
 </p>
 
 A middleware server for [my portfolio website](https://github.com/joejo-joestar/joestar), providing Spotify currently playing track, GitHub activity, and Unsplash photo collections.
@@ -11,13 +11,14 @@ This project provides a simple Express server with three main API endpoints, eac
 
 ## Dependencies
 
-| Package                                              | Description                                                                                                                      |
-| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| [express](https://expressjs.com/)                    | A minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. |
-| [http-errors](https://github.com/jshttp/http-errors) | Create HTTP errors for Express, Koa, Connect, etc.                                                                               |
-| [axios](https://axios-http.com/docs/intro)           | Promise based HTTP client for the browser and node.js                                                                            |
-| [dotenv](https://github.com/motdotla/dotenv)         | Loads environment variables from a `.env` file into `process.env`                                                                |
-| [cors](https://github.com/expressjs/cors)            | Node.js CORS middleware                                                                                                          |
+| Package                                                            | Description                                                                                                                      |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| [express](https://expressjs.com/)                                  | A minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. |
+| [serve-favicon](https://github.com/expressjs/serve-favicon#readme) | A minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. |
+| [http-errors](https://github.com/jshttp/http-errors)               | Create HTTP errors for Express, Koa, Connect, etc.                                                                               |
+| [axios](https://axios-http.com/docs/intro)                         | Promise based HTTP client for the browser and node.js                                                                            |
+| [dotenv](https://github.com/motdotla/dotenv)                       | Loads environment variables from a `.env` file into `process.env`                                                                |
+| [cors](https://github.com/expressjs/cors)                          | Node.js CORS middleware                                                                                                          |
 
 ---
 
@@ -167,6 +168,32 @@ Now, we generate a "Refresh Token", which will be used to generate fresh "Access
   ```
 
 - Now, store all the noted values of `Client ID`, `Client Secrt`, and this `refresh_token` in their respective environemt variables (see [Spotify Envs](#spotify-envs))
+
+---
+
+## Local Development
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/joejo-joestar/joestar-middleware.git
+cd joestar-middleware
+```
+
+2. Run to install dependencies
+
+```bash
+npm i
+```
+
+3. Create a `.env` file in the root directory with the required environment variables (see [Local .env example](#local-env-example))
+4. Start the server with
+
+ ```bash
+npm start
+```
+
+5. Access the endpoints at `http://localhost:3000/<endpoint>`
 
 ---
 

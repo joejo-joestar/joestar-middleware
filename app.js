@@ -1,7 +1,9 @@
 var createError = require('http-errors');
 var express = require('express');
 var cors = require('cors');
+var favicon = require('serve-favicon');
 var path = require('path');
+
 
 var indexRouter = require('./routes/index');
 var githubRouter = require('./routes/github');
@@ -9,6 +11,7 @@ var spotifyRouter = require('./routes/spotify');
 var unsplashRouter = require('./routes/unsplash');
 
 var app = express();
+app.use(favicon(path.join(__dirname, 'public', 'pixlinkcar.png')));
 
 // Minimal API server configuration
 app.use(express.json());
