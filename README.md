@@ -109,7 +109,7 @@ Obtain an access token via a stored refresh token, and fetch the currently-playi
 
 #### Spotify Setup
 
-[This article](https://medium.com/@alagappan.dev/create-a-now-playing-widget-using-the-spotify-web-api-in-react-a6cb564ed923) helped setting up the API calls and tokens for the now playing card. The steps to connect to your spotify account is very convoluted compared to the other endpoints. This is because Spotify is a bitch.
+[This article](https://medium.com/@alagappan.dev/create-a-now-playing-widget-using-the-spotify-web-api-in-react-a6cb564ed923) helped setting up the API calls and tokens for the now playing card. The steps to connect to your spotify account is very convoluted compared to the other endpoints. This is because Spotify is a bitchass crybaby.
 
 - First, head over to [Spotify for Developers](https://developer.spotify.com/), create a new app, and fill in the details
 - Take Note of the `Client ID` and the `Client Secret`
