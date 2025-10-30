@@ -11,14 +11,14 @@ This project provides a simple Express server with three main API endpoints, eac
 
 ## Dependencies
 
-| Package                                                            | Description                                                                                                                      |
-| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| [express](https://expressjs.com/)                                  | A minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. |
-| [serve-favicon](https://github.com/expressjs/serve-favicon#readme) | A minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. |
-| [http-errors](https://github.com/jshttp/http-errors)               | Create HTTP errors for Express, Koa, Connect, etc.                                                                               |
-| [axios](https://axios-http.com/docs/intro)                         | Promise based HTTP client for the browser and node.js                                                                            |
-| [dotenv](https://github.com/motdotla/dotenv)                       | Loads environment variables from a `.env` file into `process.env`                                                                |
-| [cors](https://github.com/expressjs/cors)                          | Node.js CORS middleware                                                                                                          |
+| Package                                                     | Description                                                                                                                      |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [express](https://expressjs.com/)                           | A minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. |
+| [serve-favicon](https://github.com/expressjs/serve-favicon) | A middleware for serving a favicon.                                                                                              |
+| [http-errors](https://github.com/jshttp/http-errors)        | Create HTTP errors for Express, Koa, Connect, etc.                                                                               |
+| [axios](https://axios-http.com/docs/intro)                  | Promise based HTTP client for the browser and node.js                                                                            |
+| [dotenv](https://github.com/motdotla/dotenv)                | Loads environment variables from a `.env` file into `process.env`                                                                |
+| [cors](https://github.com/expressjs/cors)                   | Node.js CORS middleware                                                                                                          |
 
 ---
 
@@ -45,21 +45,15 @@ joestar-middleware/
 
 ---
 
-## Conventions
-
-- All routes use `axios` and return parsed JSON / normalized objects.
-- Examples use top-level `await` for brevity (assume inside an async context in real code).
-
----
-
 ## Endpoints
 
-| Endpoint                           | Request Type | Description                                                                                                                                    |
-| ---------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/unsplash/collections`            | `GET`        | Fetches Unsplash collections for the [`@joejojoestar`](https://unsplash.com/@joejojoestar) account.                                            |
-| `/unsplash/collections/:id/photos` | `GET`        | Fetches photos from a specified Unsplash collection (`:id` will be replaced with required `collectionId`).                                     |
-| `/github/repos`                    | `GET`        | Fetches public repos for the [`joejo-joestar`](https://github.com/joejo-joestar) account, and archived repos, sorted by most recently updated. |
-| `/spotify/now-playing`             | `GET`        | returns simplified now-playing info.                                                                                                           |
+| Endpoint                           | Request Type | Description                                                                                                                                                                               |
+| ---------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/unsplash/collections`            | `GET`        | Fetches Unsplash collections for the username `UNSPLASH_USERNAME` in the `.env` file (refer to the [example `.env` file](./.env.example)).                                                |
+| `/unsplash/collections/:id/photos` | `GET`        | Fetches photos from a specified Unsplash collection (`:id` will be replaced with required `collectionId`).                                                                                |
+| `/github/repos`                    | `GET`        | Fetches public repos for the the username `GITHUB_USERNAME` in the `.env` file (refer to the [example `.env` file](./.env.example)), and archived repos, sorted by most recently updated. |
+| `/github/:repo/readme`             | `GET`        | Fetches the `README.md` for specified GitHub Repo (`:repo` will be replaced with required repo name (*case insensitive*)).                                                                |
+| `/spotify/now-playing`             | `GET`        | returns simplified now-playing info.                                                                                                                                                      |
 
 ---
 
@@ -75,6 +69,7 @@ Fetch collections and photos from the Unsplash API for the gallery pages.
 #### Unsplash Envs
 
 - `UNSPLASH_CLIENT_ID`: required for the requests in the current implementation.
+- `UNSPLASH_USERNAME`: required for the `user` parameter for the requests
 
 ---
 
@@ -85,6 +80,7 @@ Fetch repositories for the `joejo-joestar` account (used to populate the Project
 #### GitHub Envs
 
 - `GITHUB_ACCESS_TOKEN`: reqiured for requests in current implementation
+- `GITHUB_USERNAME`: required for the `user` parameter for the requests
 
 > [!NOTE]
 > The helper sends `Authorization: token ${githubToken}` if `GITHUB_ACCESS_TOKEN` is provided.
@@ -176,7 +172,7 @@ Now, we generate a "Refresh Token", which will be used to generate fresh "Access
 1. Clone the repository
 
 ```bash
-git clone https://github.com/joejo-joestar/joestar-middleware.git
+git clone https://github.com/joejo-joestar/joestar-middleware
 cd joestar-middleware
 ```
 
@@ -186,27 +182,18 @@ cd joestar-middleware
 npm i
 ```
 
-3. Create a `.env` file in the root directory with the required environment variables (see [Local .env example](#local-env-example))
+3. Create a `.env` file in the root directory with the required environment variables (refer to the [example `.env` file](./.env.example))
 4. Start the server with
 
- ```bash
+```bash
 npm start
 ```
 
 5. Access the endpoints at `http://localhost:3000/<endpoint>`
 
----
-
-## Local .env example
-
-Create a `.env` file:
-
-```plaintext
-UNSPLASH_CLIENT_ID=your_unsplash_client_id
-GITHUB_ACCESS_TOKEN=ghp_yourgithubtoken
-SPOTIFY_CLIENT_ID=your_spotify_client_id
-SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
-SPOTIFY_REFRESH_TOKEN=your_saved_refresh_token
-```
+> [!TIP]
+> You can use an API client to test the endpoints
+>
+> Try out [Yaak Client](https://github.com/mountain-loop/yaak) or [Hoppscotch Web App](https://hoppscotch.io/)
 
 ---

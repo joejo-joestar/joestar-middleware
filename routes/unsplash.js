@@ -3,11 +3,11 @@ var axios = require('axios');
 var router = express.Router();
 
 // Server-side Unsplash proxy
-// GET /unsplash/collections -> lists collections for user 'joejojoestar'
+// GET /unsplash/collections -> lists collections for user name string in .env
 // GET /unsplash/collections/:id/photos -> lists photos for a collection
 
 const UNSPLASH_ROOT = 'https://api.unsplash.com';
-const UNSPLASH_USER = 'joejojoestar';
+const UNSPLASH_USER = process.env.UNSPLASH_USERNAME;
 const ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY || process.env.UNSPLASH_CLIENT_ID || null;
 
 const CACHE_TTL_MS = 120 * 1000; // 120s
@@ -78,6 +78,7 @@ router.get('/collections', async function (req, res) {
     }
 });
 
+// MARK: Photos Endpoint
 // GET /unsplash/collections/:id/photos
 router.get('/collections/:id/photos', async function (req, res) {
     try {

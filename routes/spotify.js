@@ -84,6 +84,7 @@ function simplifyNowPlaying(payload) {
     };
 }
 
+// MARK: Now Playing Endpoint
 // GET /spotify/now-playing
 // Returns { meta: { authenticated }, nowPlaying: {...} }
 router.get('/now-playing', async function (req, res) {
