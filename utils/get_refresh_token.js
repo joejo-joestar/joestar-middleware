@@ -32,8 +32,6 @@ const SCOPE = getEnv('SPOTIFY_SCOPE') || 'user-read-currently-playing user-read-
 // Upstash REST API variables from .env (as you listed)
 const UPSTASH_REST_API_URL = getEnv('middleware_KV_REST_API_URL');
 const UPSTASH_REST_API_TOKEN = getEnv('middleware_KV_REST_API_TOKEN');
-// optional read-only token
-const UPSTASH_READ_ONLY = getEnv('middleware_KV_REST_API_READ_ONLY_TOKEN');
 
 if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET) {
   console.error('SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET must be set in .env or environment.');
@@ -101,7 +99,6 @@ function startServer() {
         // store refresh token in Upstash
         if (tokens.refresh_token) {
           await upstashSet('spotify:refresh_token', tokens.refresh_token);
-          // Print a copy-pastable line to add to .env if the user wants to keep a local fallback
           const safe = tokens.refresh_token.includes(' ') ? `"${tokens.refresh_token.replace(/"/g, '\\"')}"` : tokens.refresh_token;
           console.log('\nAdd this line to your .env (optional local fallback):');
           console.log(`SPOTIFY_REFRESH_TOKEN="${safe}"\n`);

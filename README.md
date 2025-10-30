@@ -13,7 +13,7 @@ This project provides a simple Express server with three main API endpoints, eac
 
 | Package                                                     | Description                                                                                                                      |
 | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| [express](https://expressjs.com/)                           | A minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. |
+| [express](https://expressjs.com)                            | A minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. |
 | [serve-favicon](https://github.com/expressjs/serve-favicon) | A middleware for serving a favicon.                                                                                              |
 | [http-errors](https://github.com/jshttp/http-errors)        | Create HTTP errors for Express, Koa, Connect, etc.                                                                               |
 | [axios](https://axios-http.com/docs/intro)                  | Promise based HTTP client for the browser and node.js                                                                            |
@@ -97,73 +97,65 @@ Obtain an access token via a stored refresh token, and fetch the currently-playi
 - `SPOTIFY_CLIENT_SECRET`: The `Client Secret` from the app created in [Spotify for Developers](https://developer.spotify.com/dashboard/create)
 - `SPOTIFY_REFRESH_TOKEN`: The refresh token gotten after following the steps provided in the [Spotify Setup](#spotify-setup) section
 
-#### Spotify Endpoints
+> [!NOTE]
+> We use an [Upstash Redis database](https://upstash.com/docs/redis/overall/getstarted) to store (and update) the `SPOTIFY_REFRESH_TOKEN` and a few otehr variables (more details will be explained in the [Spotify Setup](#spotify-setup) section)
+>
+> These `middleware_*` Variables are also used in the [`utils/get_refresh_token.js`](./utils/get_refresh_token.js) script
 
-- Token endpoint: `https://accounts.spotify.com/api/token`
-- Now playing: `https://api.spotify.com/v1/me/player/currently-playing`
-
-#### Behavior
-
-- `getAccessToken(...)` posts `grant_type=refresh_token` to Spotify's token endpoint using HTTP Basic auth (`clientId:clientSecret` base64 encoded).
-- `getNowPlaying()` calls `getAccessToken` with the env vars, then requests the now-playing endpoint with `Authorization: Bearer <access_token>`, normalizes the response, and returns a simplified object on success. If no track is playing or an error occurs it returns an error message string.
+- `middleware_KV_REST_API_URL`: The Upstash Redis Database URL
+- `middleware_KV_REST_API_TOKEN`: The Upstash Redis Database API Token
 
 #### Spotify Setup
 
 [This article](https://medium.com/@alagappan.dev/create-a-now-playing-widget-using-the-spotify-web-api-in-react-a6cb564ed923) helped setting up the API calls and tokens for the now playing card. The steps to connect to your spotify account is very convoluted compared to the other endpoints. This is because Spotify is a bitchass crybaby.
 
-- First, head over to [Spotify for Developers](https://developer.spotify.com/), create a new app, and fill in the details
+- First, head over to [Spotify for Developers](https://developer.spotify.com), create a new app, and fill in the details
 - Take Note of the `Client ID` and the `Client Secret`
+
   ![App Dashboard Secrets](./assets/spotifyDevDash.png)
-- Next, add the local host IP (`https://127.0.0.1:5173/`) (Spotify has blacklisted `http://localhost:5173/` from being used as a redirect URI in the [latest update](https://developer.spotify.com/documentation/web-api/concepts/redirect_uri))
+
+- Next, add the local host IP (`http://127.0.0.1:3001/callback`) (Spotify has blacklisted `http://localhost:5173/` from being used as a redirect URI in the [latest update](https://developer.spotify.com/documentation/web-api/concepts/redirect_uri))
+
+  ```plaintext
+  http://127.0.0.1:3001/callback
+  ```
+
   ![Redirect URIs](./assets/spotifyDevRedirects.png)
 
-Now, we generate a "Refresh Token", which will be used to generate fresh "Access Tokens" for the actual api call.
+Now, we setup an Upstash Redis Database to store the Refresh token, the fresh access token and its ttl.
 
-- Modify the below url with your `Client ID` from the [Spotify for Developers dashboard](https://developer.spotify.com/dashboard)
+> [!NOTE]
+> The following steps assume you are using Vercel to deploy this service
 
-  ```plaintext
-  https://accounts.spotify.com/en/authorize?client_id=<YOUR_CLIENT_ID>&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1:5173%2F&scope=user-read-currently-playing
-  ```
+- In your deployed project's page, head over to the stores tab
 
-- Agree to the authorization in this page
-  ![Authoirization Page](assets/spotifyAuth.png)
+  ![Vercel Dashboard](./assets/VercelDashboard.png)
 
-- Next, take note of the url of the redirected page, it should have a `?code=` parameter, like so,
+- Then `Create a Database` and select the `Upstash for Redis` option
 
-  ```plaintext
-  http://127.0.0.1:5173/?code=<SOME_REALLY_LONG_STRING>
-  ```
+  ![Storage Options](./assets/StorageOptions.png)
 
-- Now, generate a `base64` string of the form `<YOUR_CLIENT_ID>:<YOUR_CLIENT_SECRET>` (`e81...a07:0b0...57c`). The base64 scting can be generated [online here](https://www.base64encode.org/)
-- Modify this `curl` command by adding the generated base64 string, and the `code` from the url earlier
+  > [!NOTE]
+  > You will be asked to create a free account!
 
-  ```bash
-  curl
-  -H "Authorization: Basic <BASE64_CLIENT_ID_AND_SECRET_STRING>"
-  -d grant_type=authorization_code
-  -d code=<CODE_FROM_URL>
-  -d redirect_uri=http://127.0.0.1:5173/ https://accounts.spotify.com/api/token
-  ```
+- Follow the steps in the following pages and select the free tier (unless you are willing to pay!) and create a database
+- When prompted to enter a custom prefix, put in `middleware` (this repo uses the `middleware` prefix, you can use whatever you want!)
 
-  the command should look something like this:
+  ![custom prefix dialogue](./assets/CustomPrefixDialogue.png)
 
-  ```bash
-  curl -H "Authorization: Basic ZTg...N2M=" -d grant_type=authorization_code -d code=AQA...Eag -d redirect_uri=http://127.0.0.1:5173/ https://accounts.spotify.com/api/token
-  ```
+- In the console page, you will find the enviroonment variables for the Upstash Redis Database. Save these in your `.env` file for local development and the setup
 
-- The `curl` command should return the following response. From this, make note of the `refresh_token`
+  ![upstash redis console](./assets/UpstashRedisConsole.png)
 
-  ```json
-  {
-    "access_token": "BQD...fSw",
-    "token_type": "Bearer",
-    "expires_in": 3600,
-    "refresh_token": "AQA...OGw",
-    "scope": "user-read-currently-playing"
-  }
-  ```
+> [!Tip]
+> Follow the [Local Development](#local-development) steps before continuing to simplify the whole process!
 
-- Now, store all the noted values of `Client ID`, `Client Secrt`, and this `refresh_token` in their respective environemt variables (see [Spotify Envs](#spotify-envs))
+Once this prereq is complete, simply run the [utility script](./utils/get_refresh_token.js) and follow the steps to generate a spotify refresh token and store it in the Redis Database!
+
+```bash
+npm i
+node utils/get_refresh_token.js
+```
 
 ---
 
@@ -194,6 +186,6 @@ npm start
 > [!TIP]
 > You can use an API client to test the endpoints
 >
-> Try out [Yaak Client](https://github.com/mountain-loop/yaak) or [Hoppscotch Web App](https://hoppscotch.io/)
+> Try out [Yaak Client](https://github.com/mountain-loop/yaak) or [Hoppscotch Web App](https://hoppscotch.io)
 
 ---
