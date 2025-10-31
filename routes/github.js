@@ -84,8 +84,9 @@ router.get('/:repo/readme', async function (req, res, _next) {
 
     const url = `${GITHUB_ROOT}/repos/${USERNAME}/${repo}/contents/README.md`;
 
+    // fetch raw content (since its only the readmes and they arent that large (usually))
     const headers = {
-      Accept: 'application/vnd.github+json',
+      Accept: 'application/vnd.github.raw+json',
       'X-GitHub-Api-Version': '2022-11-28',
     };
     if (GITHUB_TOKEN) headers.Authorization = `token ${GITHUB_TOKEN}`;
