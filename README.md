@@ -52,7 +52,7 @@ joestar-middleware/
 | `/unsplash/collections`            | `GET`        | Fetches Unsplash collections for the username `UNSPLASH_USERNAME` in the `.env` file (refer to the [example `.env` file](./.env.example)).                                                |
 | `/unsplash/collections/:id/photos` | `GET`        | Fetches photos from a specified Unsplash collection (`:id` will be replaced with required `collectionId`).                                                                                |
 | `/github/repos`                    | `GET`        | Fetches public repos for the the username `GITHUB_USERNAME` in the `.env` file (refer to the [example `.env` file](./.env.example)), and archived repos, sorted by most recently updated. |
-| `/github/:repo/readme`             | `GET`        | Fetches the `README.md` for specified GitHub Repo (`:repo` will be replaced with required repo name (*case insensitive*)).                                                                |
+| `/github/:owner/:repo/readme`      | `GET`        | Fetches the `README.md` for specified GitHub Repo from an owner (`:repo` and `:owner` will be replaced with required values (*case insensitive*)).                                        |
 | `/spotify/now-playing`             | `GET`        | returns simplified now-playing info.                                                                                                                                                      |
 
 ---
@@ -79,7 +79,7 @@ Fetch repositories for the `joejo-joestar` account (used to populate the Project
 
 #### GitHub Envs
 
-- `GITHUB_ACCESS_TOKEN`: reqiured for requests in current implementation
+- `GITHUB_ACCESS_TOKEN`: required for requests in current implementation
 - `GITHUB_USERNAME`: required for the `user` parameter for the requests
 
 > [!NOTE]
@@ -98,7 +98,7 @@ Obtain an access token via a stored refresh token, and fetch the currently-playi
 - `SPOTIFY_REFRESH_TOKEN`: The refresh token gotten after following the steps provided in the [Spotify Setup](#spotify-setup) section
 
 > [!NOTE]
-> We use an [Upstash Redis database](https://upstash.com/docs/redis/overall/getstarted) to store (and update) the `SPOTIFY_REFRESH_TOKEN` and a few otehr variables (more details will be explained in the [Spotify Setup](#spotify-setup) section)
+> We use an [Upstash Redis database](https://upstash.com/docs/redis/overall/getstarted) to store (and update) the `SPOTIFY_REFRESH_TOKEN` and a few other variables (more details will be explained in the [Spotify Setup](#spotify-setup) section)
 >
 > These `middleware_*` Variables are also used in the [`utils/get_refresh_token.js`](./utils/get_refresh_token.js) script
 
@@ -143,7 +143,7 @@ Now, we setup an Upstash Redis Database to store the Refresh token, the fresh ac
 
   ![custom prefix dialogue](./assets/CustomPrefixDialogue.png)
 
-- In the console page, you will find the enviroonment variables for the Upstash Redis Database. Save these in your `.env` file for local development and the setup
+- In the console page, you will find the environment variables for the Upstash Redis Database. Save these in your `.env` file for local development and the setup
 
   ![upstash redis console](./assets/UpstashRedisConsole.png)
 

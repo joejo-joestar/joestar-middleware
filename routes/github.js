@@ -4,7 +4,7 @@ var router = express.Router();
 
 // Server-side GitHub proxy
 // GET /github/repos -> returns the user's repos, filters a local blacklist, caches for a short TTL
-// GET /github/:repo/readme -> returns the README.md content for a given repo
+// GET /github/:owner/:repo/readme -> returns the README.md content for a given repo owned by the owner
 
 const GITHUB_ROOT = "https://api.github.com";
 const USERNAME = process.env.GITHUB_USERNAME;
@@ -82,13 +82,14 @@ router.get("/repos", async function (req, res, _next) {
 
 // MARK: README Endpoint
 // GET /github/:repo/readme
-router.get("/:repo/readme", async function (req, res, _next) {
+router.get("/:owner/:repo/readme", async function (req, res, _next) {
   try {
     const repo = req.params.repo;
+    const owner = req.params.owner;
 
-    const url = `${GITHUB_ROOT}/repos/${USERNAME}/${repo}/contents/README.md`;
+    const url = `${GITHUB_ROOT}/repos/${owner}/${repo}/contents/README.md`;
 
-    // fetch raw content (since its only the readmes and they arent that large (usually))
+    // fetch raw content (since its only the readmes and they aren't that large (usually))
     const headers = {
       Accept: "application/vnd.github.raw+json",
       "X-GitHub-Api-Version": "2022-11-28",
