@@ -24,6 +24,7 @@ const repoBlacklist = [
   { id: 1047632816 },
   { id: 689259000 },
   { id: 1063993915 },
+  { id: 1086643711 },
 ];
 
 function filterBlacklist(repos) {
